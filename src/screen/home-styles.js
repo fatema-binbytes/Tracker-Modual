@@ -1,30 +1,36 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import colors from '../theme/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.darkBackground,
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   headerTxt: {
-    fontSize:25,
-    color:colors.conformed,
-    margin:15,
+    fontWeight: 'bold',
+    fontSize: 12,
+    color: colors.headerTxt,
+    textAlign: 'center',
   },
   txtContainer: {
-    minWidth:80,
-    borderWidth:2,
-    borderColor:'#fff',
-    padding:5,
-    },
-  headerContainer:{
-      padding:5,
-      borderRadius:5,
-        borderColor:'#fff',
-      borderWidth:2,
-      backgroundColor:colors.greyc3
+    width: Dimensions.get('window').width / 5 - 5,
+    padding: 4,
+    paddingVertical: 10,
+  },
+  headerContainer: {
+    width: Dimensions.get('screen').width / 5 - 5,
+    padding: 4,
+    paddingVertical: 15,
+    backgroundColor: colors.darkBackground,
+  },
+  itemContainer: {
+    marginBottom: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0d0d0d',
   },
 });
 

@@ -6,7 +6,6 @@ import Tab3 from '../screen/Tab3';
 import Account from '../screen/Account';
 import Home from '../screen/Home';
 import colors from '../theme/colors';
-import Chart from '../screen/Chart';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +23,7 @@ function Dashboard() {
         },
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Chart" component={Chart} />
+      <Tab.Screen name="Chart" component={District} />
     </Tab.Navigator>
   );
 }

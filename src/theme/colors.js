@@ -17,12 +17,13 @@ const colors = {
   tabInActive: '#999',
   statusBar: '#FFF',
   transparent: 'transparent',
-  darkBackground: '#e9e9e9',
-  txtColor:'#000',
-  conformed:'#E06666',
-  active:'#97C9FF',
-  deaths:'#6c757d',
-  recovered:'#93C47D',
+  darkBackground: '#000',
+  txtColor: '#F5F5DC',
+  headerTxt: '#cdd6e7',
+  conformed: '#E06666',
+  active: '#97C9FF',
+  deaths: '#FF0000',
+  recovered: '#00FF00',
 };
 
 export default colors;

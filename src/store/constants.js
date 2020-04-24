@@ -4,6 +4,7 @@ const actions = {
   CHECK_USER: 'CHECK_USER',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
+  STATE: 'STATE',
 };
 
 export default actions;

@@ -9,23 +9,24 @@ import Dashboard from './dashboard';
 
 import LoginStatus from '../constants/auth';
 import Splash from '../screen/Splash';
+import District from './distcDashbord';
 
 const AuthStack = createStackNavigator();
 
 class RootNavigation extends React.Component {
   render() {
-    const initialRouteName =
-      this.props.loginStatus === LoginStatus.LOGIN ? 'Splash' : 'Login';
+    const initialRouteName = 'Splash';
+    // this.props.loginStatus === LoginStatus.LOGIN ? 'Splash' : 'Login';
     return (
       <NavigationContainer>
         <AuthStack.Navigator
           headerMode={'none'}
-          initialRouteName={initialRouteName}
-          >
+          initialRouteName={initialRouteName}>
           <AuthStack.Screen name={'Splash'} component={Splash} />
           <AuthStack.Screen name={'Login'} component={Login} />
           <AuthStack.Screen name={'Signup'} component={Signup} />
           <AuthStack.Screen name={'Dashboard'} component={Dashboard} />
+          <AuthStack.Screen name={'District'} component={District} />
         </AuthStack.Navigator>
       </NavigationContainer>
     );

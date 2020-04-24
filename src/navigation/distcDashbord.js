@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import District from '../screen/District';
 import Tab3 from '../screen/Tab3';
 import Account from '../screen/Account';
-import Home from '../screen/Home';
+import Home from '../screen/District';
 import colors from '../theme/colors';
 import Chart from '../screen/Chart';
 
@@ -23,7 +23,7 @@ function Dashboard() {
           backgroundColor: colors.darkBackground,
         },
       }}>
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="District" component={Home} />
       <Tab.Screen name="Chart" component={Chart} />
     </Tab.Navigator>
   );
