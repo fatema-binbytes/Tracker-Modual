@@ -17,7 +17,11 @@ function Dashboard() {
         activeTintColor: 'yellow',
         showIcon: false,
         labelStyle: {
-          fontSize: 14,
+          fontSize: 16,
+          padding: 8,
+        },
+        style: {
+          borderTopWidth: 0,
         },
         tabStyle: {
           backgroundColor: colors.darkBackground,

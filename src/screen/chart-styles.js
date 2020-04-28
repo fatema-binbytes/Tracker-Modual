@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'space-around',
   },
-  txt: {fontSize: 18},
+  txt: {fontSize: 16},
   chart: {
     flex: 1,
     margin: 10,
