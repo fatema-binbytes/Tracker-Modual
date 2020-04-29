@@ -2,11 +2,11 @@ import {combineReducers} from 'redux';
 
 import auth from './auth';
 import user from './user';
-import state from './state';
+import data from './data';
 const rootReducers = combineReducers({
   auth,
   user,
-  state,
+  data,
 });
 
 export default rootReducers;

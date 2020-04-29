@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import {
-  TouchableOpacity,
   View,
   FlatList,
   Text,
-  Image,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {state} from '../store/actions';
+import {data} from '../store/actions';
 
 import styles from './district-styles';
 import colors from '../theme/colors';
-import stateWiseSubData from '../data/stateWise';
 
 class District extends Component {
   constructor(props) {
@@ -37,10 +35,6 @@ class District extends Component {
   };
 
   render() {
-    const indexNumber = stateWiseSubData.findIndex(
-      (x) => x.state === this.props.currentState,
-    );
-    const index = indexNumber === -1 ? 0 : indexNumber;
     return (
       <View style={styles.container}>
         <View style={{flex: 1}}>
@@ -48,40 +42,45 @@ class District extends Component {
             {this.renderHeader('DISCRITC', colors.headerTxt)}
             {this.renderHeader('CONFORMED', colors.headerTxt)}
           </View>
-
-          <FlatList
-            data={stateWiseSubData[index].districtData}
-            renderItem={({item, index}) => {
-              return (
-                <View
-                  style={{
-                    marginBottom: 1,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#0d0d0d',
-                  }}>
-                  {this.item(
-                    item.district.replace(' ', '-').toUpperCase(),
-                    {
+          {this.props.currentState == null ? (
+            <View>
+              <ActivityIndicator color={'#fff'} />
+            </View>
+          ) : (
+            <FlatList
+              data={this.props.currentState.toJS()}
+              renderItem={({item, index}) => {
+                return (
+                  <View
+                    style={{
+                      marginBottom: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#0d0d0d',
+                    }}>
+                    {this.item(
+                      item.district.replace(' ', '-').toUpperCase(),
+                      {
+                        textAlign: 'center',
+                        color: colors.txtColor,
+                        fontSize: 12,
+                        fontWeight: 'bold',
+                      },
+                      {
+                        width: Dimensions.get('screen').width / 2,
+                      },
+                    )}
+                    {this.item(item.confirmed, {
                       textAlign: 'center',
                       color: colors.txtColor,
-                      fontSize: 12,
-                      fontWeight: 'bold',
-                    },
-                    {
-                      width: Dimensions.get('screen').width / 2,
-                    },
-                  )}
-                  {this.item(item.confirmed, {
-                    textAlign: 'center',
-                    color: colors.txtColor,
-                  })}
-                </View>
-              );
-            }}
-            keyExtractor={(item, index) => `${index}`}
-          />
+                    })}
+                  </View>
+                );
+              }}
+              keyExtractor={(item, index) => `${index}`}
+            />
+          )}
         </View>
       </View>
     );
@@ -89,10 +88,10 @@ class District extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  currentState: state.state.get('state'),
+  currentState: state.data.get('state'),
 });
 
 const mapDispatchToProps = {
-  setState: state.setState,
+  setState: data.setState,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(District);

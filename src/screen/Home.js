@@ -4,12 +4,11 @@ import {
   View,
   FlatList,
   Text,
-  Image,
-  StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {state} from '../store/actions';
-import Data from '../data/covidData';
+import {data} from '../store/actions';
+
 import styles from './home-styles';
 import colors from '../theme/colors';
 
@@ -29,36 +28,40 @@ class Home extends Component {
     );
   };
   renderItem = (item, index) => {
-    return (
-      <TouchableOpacity
-        style={styles.itemContainer}
-        onPress={() => {
-          this.props.setState(item.state);
-          this.props.navigation.navigate('District');
-        }}>
-        {this.item(item.state.replace(' ', '-').toUpperCase(), {
-          textAlign: 'center',
-          fontSize: 12,
-          color: colors.txtColor,
-        })}
-        {this.item(item.confirmed, {
-          textAlign: 'center',
-          color: colors.txtColor,
-        })}
-        {this.item(item.active, {
-          textAlign: 'center',
-          color: colors.txtColor,
-        })}
-        {this.item(item.recovered, {
-          textAlign: 'center',
-          color: colors.recovered,
-        })}
-        {this.item(item.deaths, {
-          textAlign: 'center',
-          color: colors.deaths,
-        })}
-      </TouchableOpacity>
-    );
+    if (item.confirmed != 0) {
+      return (
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => {
+            item.state === 'Total'
+              ? console.log('Total')
+              : (this.props.setState(item.state),
+                this.props.navigation.navigate('District'));
+          }}>
+          {this.item(item.state.replace(' ', '-').toUpperCase(), {
+            textAlign: 'center',
+            fontSize: 12,
+            color: colors.txtColor,
+          })}
+          {this.item(item.confirmed, {
+            textAlign: 'center',
+            color: colors.txtColor,
+          })}
+          {this.item(item.active, {
+            textAlign: 'center',
+            color: colors.txtColor,
+          })}
+          {this.item(item.recovered, {
+            textAlign: 'center',
+            color: colors.recovered,
+          })}
+          {this.item(item.deaths, {
+            textAlign: 'center',
+            color: colors.deaths,
+          })}
+        </TouchableOpacity>
+      );
+    }
   };
   render() {
     return (
@@ -72,13 +75,19 @@ class Home extends Component {
             {this.renderHeader('Deaths')}
           </View>
           <View style={{flex: 1}}>
-            <FlatList
-              data={Data.statewise}
-              renderItem={({item, index}) => {
-                return this.renderItem(item, index);
-              }}
-              keyExtractor={(item, index) => `${index}`}
-            />
+            {this.props.currentData == null ? (
+              <View>
+                <ActivityIndicator color={'#fff'} />
+              </View>
+            ) : (
+              <FlatList
+                data={this.props.currentData.toJS().statewise}
+                renderItem={({item, index}) => {
+                  return this.renderItem(item, index);
+                }}
+                keyExtractor={(item, index) => `${index}`}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -86,10 +95,10 @@ class Home extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  currentState: state.state.get('state'),
+  currentData: state.data.get('data'),
 });
 
 const mapDispatchToProps = {
-  setState: state.setState,
+  setState: data.setState,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

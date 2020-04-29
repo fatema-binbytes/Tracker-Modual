@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import {data} from '../store/actions';
 
 import styles from './chart-styles';
-import Data from '../data/covidData';
 import BezierLineChart from '../components/LineChart';
 import colors from '../theme/colors';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -15,15 +16,18 @@ class Chart extends Component {
       chart: 'Beggning',
     };
   }
-
+  componentDidMount() {
+    this.getData();
+  }
   getData = () => {
-    const data =
+    const Data = this.props.currentData.toJS();
+    const dataSet =
       this.state.chart === 'Month'
         ? GraphData(Data.cases_time_series, 'Month')
         : this.state.chart === 'Week'
         ? GraphData(Data.cases_time_series, 'Week')
         : GraphData(Data.cases_time_series, 'Beggning');
-    return data;
+    return dataSet;
   };
   optionButton = (onPress, label) => {
     const style = {
@@ -60,7 +64,7 @@ class Chart extends Component {
     );
   };
   render() {
-    const [data, label] = this.getData();
+    const [graph, label] = this.getData();
     return (
       <View style={styles.container}>
         <View style={[styles.optionView]}>
@@ -80,7 +84,7 @@ class Chart extends Component {
             <BezierLineChart
               chartColor={'rgba(134, 65, 244, 1)'}
               labels={label}
-              data={data.map((x) => parseInt(x.dailyconfirmed))}
+              data={graph.map((x) => parseInt(x.dailyconfirmed))}
             />
           </View>
           <View style={styles.chart}>
@@ -91,7 +95,7 @@ class Chart extends Component {
             <BezierLineChart
               chartColor={'rgba(125, 207, 58, 1)'}
               labels={label}
-              data={data.map((x) => parseInt(x.dailyrecovered))}
+              data={graph.map((x) => parseInt(x.dailyrecovered))}
             />
           </View>
           <View style={styles.chart}>
@@ -100,7 +104,7 @@ class Chart extends Component {
             <BezierLineChart
               chartColor={'rgba(207, 58, 77)'}
               labels={label}
-              data={data.map((x) => parseInt(x.dailydeceased))}
+              data={graph.map((x) => parseInt(x.dailydeceased))}
             />
           </View>
         </ScrollView>
@@ -108,5 +112,11 @@ class Chart extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  currentData: state.data.get('data'),
+});
 
-export default Chart;
+const mapDispatchToProps = {
+  setState: data.setState,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
